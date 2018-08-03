@@ -17,15 +17,21 @@ export default {
   },
   methods: {
     getOauth: function(){
-      // axios.get('http://localhost:3000/getOauth')
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
+      const params = {
+        callbackurl: 'http://localhost:8080/#/'
+      }
+      axios.get('http://localhost:3000/getOauth', {params})
+        .then(function (response) {
+          const data = response.data;
+          const { redirectUrl } = data;
+          console.log(response);
+          window.open(redirectUrl, '_self')
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       console.log("getOauth")
-      window.open('http://localhost:3000/getOauth', '_self')
+      // window.open('http://localhost:3000/getOauth', '_self')
     }
   }
 };
