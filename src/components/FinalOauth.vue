@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    HelloWorld
-    <button @click="getOauth">申请鉴权</button>
+    鉴权中...
   </div>
 </template>
 
@@ -9,7 +8,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'HelloWorld',
+  name: 'FinalOauth',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -33,7 +32,30 @@ export default {
       console.log("getOauth")
       // window.open('http://localhost:3000/getOauth', '_self')
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      const urlParams = to.query;
+      const params = {
+        code: urlParams.code,
+      }
+      console.log(params)
+      axios.post('http://localhost:3000/getAccessToken', params,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(function (response) {
+          const data = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      console.log("getOauth")
+    })
   }
+
 };
 </script>
 
